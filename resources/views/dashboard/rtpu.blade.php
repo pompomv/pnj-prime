@@ -42,9 +42,11 @@
             <table class="w-full text-sm">
                 <thead class="bg-gray-50 text-xs uppercase text-gray-500">
                     <tr>
-                        <th class="px-6 py-3 text-left">Nama</th>
+                        <th class="px-6 py-3 text-left">Nama / Instansi</th>
+                        <th class="px-6 py-3 text-left">Tipe</th>
                         <th class="px-6 py-3 text-left">Email</th>
-                        <th class="px-6 py-3 text-left">NIK</th>
+                        <th class="px-6 py-3 text-left">Identitas (NIK/NIB)</th>
+                        <th class="px-6 py-3 text-left">Dokumen KYC</th>
                         <th class="px-6 py-3 text-left">Tanggal Daftar</th>
                         <th class="px-6 py-3 text-left">Aksi</th>
                     </tr>
@@ -52,9 +54,58 @@
                 <tbody class="divide-y divide-gray-100">
                     @foreach($akunMenunggu as $akun)
                     <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-3 font-medium text-gray-900">{{ $akun->name }}</td>
-                        <td class="px-6 py-3 text-gray-600">{{ $akun->email }}</td>
-                        <td class="px-6 py-3 text-gray-600 font-mono text-xs">{{ $akun->nik ?? '—' }}</td>
+                        <td class="px-6 py-3">
+                            <div class="font-medium text-gray-900">{{ $akun->name }}</div>
+                            @if($akun->nama_perusahaan)
+                                <div class="text-xs text-gray-500 font-normal">{{ $akun->nama_perusahaan }}</div>
+                            @endif
+                        </td>
+                        <td class="px-6 py-3">
+                            @if($akun->jenis_akun === 'perusahaan')
+                                <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">Perusahaan</span>
+                            @else
+                                <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-teal-100 text-teal-800" style="background-color: #E6F4F1; color: #0D6B5E;">Personal</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-3 text-gray-600 text-xs">{{ $akun->email }}</td>
+                        <td class="px-6 py-3 text-gray-600 font-mono text-xs">
+                            @if($akun->jenis_akun === 'perusahaan')
+                                <div><span class="text-gray-400">NIB:</span> {{ $akun->nib ?? '—' }}</div>
+                                <div><span class="text-gray-400">NPWP:</span> {{ $akun->npwp ?? '—' }}</div>
+                            @else
+                                <div><span class="text-gray-400">NIK:</span> {{ $akun->nik ?? '—' }}</div>
+                                @if($akun->npwp)
+                                    <div><span class="text-gray-400">NPWP:</span> {{ $akun->npwp }}</div>
+                                @endif
+                            @endif
+                        </td>
+                        <td class="px-6 py-3 text-xs space-y-1">
+                            @if($akun->foto_ktp || $akun->url_foto_ktp)
+                                <a href="{{ asset('storage/' . ($akun->foto_ktp ?? $akun->url_foto_ktp)) }}" target="_blank"
+                                    class="inline-flex items-center gap-1 text-blue-600 hover:underline">
+                                    📄 KTP/Paspor
+                                </a>
+                            @endif
+                            @if($akun->dok_npwp || $akun->foto_npwp || $akun->url_foto_npwp)
+                                <div>
+                                    <a href="{{ asset('storage/' . ($akun->dok_npwp ?? $akun->foto_npwp ?? $akun->url_foto_npwp)) }}" target="_blank"
+                                        class="inline-flex items-center gap-1 text-blue-600 hover:underline">
+                                        📄 NPWP
+                                    </a>
+                                </div>
+                            @endif
+                            @if($akun->dok_nib_akta)
+                                <div>
+                                    <a href="{{ asset('storage/' . $akun->dok_nib_akta) }}" target="_blank"
+                                        class="inline-flex items-center gap-1 text-blue-600 hover:underline">
+                                        📄 NIB / Akta
+                                    </a>
+                                </div>
+                            @endif
+                            @if(!$akun->foto_ktp && !$akun->url_foto_ktp && !$akun->dok_npwp && !$akun->dok_nib_akta)
+                                <span class="text-gray-400">—</span>
+                            @endif
+                        </td>
                         <td class="px-6 py-3 text-gray-500 text-xs">{{ $akun->created_at->format('d M Y') }}</td>
                         <td class="px-6 py-3">
                             <div class="flex items-center space-x-2">

@@ -24,12 +24,25 @@ class User extends Authenticatable implements FilamentUser
         'role',
         'password_hash',
         'sso_id',
+        // SSO kampus
+        'nim_nip',
+        // Identitas
+        'nama_lengkap',
         'nik',
         'npwp',
         'url_foto_ktp',
         'url_foto_npwp',
+        'foto_ktp',
+        'foto_npwp',
         'nomor_telepon',
         'alamat',
+        // Registrasi eksternal
+        'jenis_akun',
+        'nama_perusahaan',
+        'nib',
+        'dok_npwp',
+        'dok_nib_akta',
+        // Status
         'status_verifikasi',
         'diverifikasi_oleh',
         'diverifikasi_pada',

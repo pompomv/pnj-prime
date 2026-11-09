@@ -14,6 +14,15 @@ Route::get('/login',  [AuthController::class, 'showLogin'])->name('login')->midd
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
 
+// SSO
+Route::get('/sso',  [AuthController::class, 'showSso'])->name('sso.login')->middleware('guest');
+Route::post('/sso', [AuthController::class, 'ssoLogin'])->name('sso.post');
+
+// Registrasi Eksternal
+Route::get('/register',                   [AuthController::class, 'showRegister'])->name('register')->middleware('guest');
+Route::post('/register/personal',         [AuthController::class, 'registerPersonal'])->name('register.personal.post');
+Route::post('/register/perusahaan',       [AuthController::class, 'registerPerusahaan'])->name('register.perusahaan.post');
+
 // ─── Authenticated ────────────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
 

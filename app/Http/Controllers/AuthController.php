@@ -127,9 +127,12 @@ class AuthController extends Controller
             'password.confirmed'    => 'Konfirmasi kata sandi tidak cocok.',
             'nik.required'          => 'NIK wajib diisi.',
             'nik.digits'            => 'NIK harus tepat 16 digit angka.',
+            'npwp.digits'           => 'NPWP Pribadi harus tepat 16 digit angka.',
             'foto_ktp.required'     => 'Foto KTP/Paspor wajib diunggah.',
             'foto_ktp.mimes'        => 'File KTP harus berformat JPG, PNG, atau PDF.',
             'foto_ktp.max'          => 'Ukuran file KTP maksimal 5 MB.',
+            'foto_npwp.mimes'       => 'File NPWP harus berformat JPG, PNG, atau PDF.',
+            'foto_npwp.max'         => 'Ukuran file NPWP maksimal 5 MB.',
             'agree_terms.accepted'  => 'Anda harus menyetujui Syarat & Ketentuan.',
         ]);
 

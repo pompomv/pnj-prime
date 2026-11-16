@@ -53,7 +53,7 @@ Sistem ini mendukung tata kelola hilirisasi riset terintegrasi:
 | Peran (Role) | Akses & Tanggung Jawab Utama |
 |---|---|
 | **Dosen / Mahasiswa** | Mengajukan produk prototipe fisik atau jasa pengujian lab, merevisi ajuan, dan memantau status kurasi. |
-| **P3M** | Memvalidasi kelayakan inovasi riset, menyetujui, meminta revisi perbaikan, atau menolak usulan. |
+| **P3M / Admin Jurusan** | Memvalidasi kelayakan inovasi riset, menyetujui, meminta revisi perbaikan, atau menolak usulan. |
 | **Pimpinan** | Memantau seluruh hasil kurasi inovasi dan menetapkan Harga Pokok Penjualan (HPP) serta Harga Jual pasar. |
 | **RTPU (Admin Usaha)** | Memverifikasi keabsahan dokumen akun eksternal (KTP/NPWP), mengelola publikasi etalase promosi, dan mengatur jadwal layanan lab. |
 | **Eksternal (Industri/Umum)** | Mendaftar akun dengan NIK/NPWP dan menjelajahi etalase katalog produk/jasa riset terapan kampus. |

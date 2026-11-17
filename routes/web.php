@@ -10,8 +10,13 @@ use App\Http\Controllers\RtpuController;
 use App\Http\Controllers\MarketplaceController;
 use Illuminate\Support\Facades\Route;
 
-// ─── Halaman Utama (Publik) ──────────────────────────────────────────────────
+// ─── Halaman Utama & Katalog Publik ──────────────────────────────────────────
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::prefix('marketplace')->name('marketplace.')->group(function () {
+    Route::get('/',     [MarketplaceController::class, 'index'])->name('index');
+    Route::get('/{id}', [MarketplaceController::class, 'show'])->name('show');
+});
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 Route::get('/login',  [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
@@ -71,11 +76,5 @@ Route::middleware('auth')->group(function () {
         Route::get('/jadwal/{detailId}/form',   [RtpuController::class, 'formJadwal'])->name('jadwal.form');
         Route::post('/jadwal/{detailId}',       [RtpuController::class, 'simpanJadwal'])->name('jadwal.simpan');
         Route::post('/jadwal/{jadwalId}/selesai',[RtpuController::class, 'selesaiJadwal'])->name('jadwal.selesai');
-    });
-
-    // ── MARKETPLACE (Eksternal - browse saja, tanpa checkout) ─────────────────
-    Route::middleware('role:eksternal')->prefix('marketplace')->name('marketplace.')->group(function () {
-        Route::get('/',     [MarketplaceController::class, 'index'])->name('index');
-        Route::get('/{id}', [MarketplaceController::class, 'show'])->name('show');
     });
 });

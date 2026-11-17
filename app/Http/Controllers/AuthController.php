@@ -49,7 +49,7 @@ class AuthController extends Controller
         $user->update(['last_login_at' => now()]);
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard'));
+        return redirect()->intended(route('home'));
     }
 
     // ─── Show SSO Login ────────────────────────────────────────────────────
@@ -96,7 +96,7 @@ class AuthController extends Controller
         $user->update(['last_login_at' => now()]);
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('home');
     }
 
     // ─── Show Register ─────────────────────────────────────────────────────

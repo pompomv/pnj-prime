@@ -96,27 +96,8 @@
                     </a>
                 </div>
 
-                {{-- Center-Left: Quick Search Bar --}}
-                <div class="hidden lg:flex items-center flex-1 max-w-md mx-4">
-                    <form action="{{ request()->url() }}" method="GET" class="w-full flex items-center bg-[#F9FAFB] border border-gray-300 rounded-full py-1.5 pl-4 pr-1.5 text-xs focus-within:border-teal-primary focus-within:ring-2 focus-within:ring-teal-100 transition">
-                        <input type="hidden" name="mode" value="{{ $mode ?? 'semua' }}">
-                        <input
-                            type="text"
-                            name="search"
-                            value="{{ request('search') }}"
-                            placeholder="{{ ($mode ?? '') === 'produk' ? 'Cari produk inovasi, modul, mesin...' : (($mode ?? '') === 'lab' ? 'Cari layanan uji, kalibrasi, lab...' : 'Cari produk inovasi atau layanan lab...') }}"
-                            class="w-full px-2 py-1 bg-transparent text-gray-800 placeholder-gray-400 focus:outline-none text-xs"
-                        >
-                        <button type="submit" class="w-8 h-8 rounded-full bg-teal-primary hover:bg-teal-800 text-white flex items-center justify-center shrink-0 transition" title="Cari">
-                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                        </button>
-                    </form>
-                </div>
-
-                {{-- Center-Right: Navigation Links (Terpisah Jelas) --}}
-                <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-gray-600">
+                {{-- Center: Navigation Links --}}
+                <nav class="hidden md:flex items-center gap-7 text-xs font-semibold text-gray-600">
                     <a href="{{ route('home') }}" class="hover:text-teal-primary transition">
                         Beranda
                     </a>
@@ -128,6 +109,9 @@
                     </a>
                     <a href="{{ route('home') }}#alur-kemitraan" class="hover:text-teal-primary transition">
                         Alur Kemitraan
+                    </a>
+                    <a href="{{ route('home') }}#tentang-kami" class="hover:text-teal-primary transition">
+                        Tentang Kami
                     </a>
                 </nav>
 
@@ -258,7 +242,7 @@
                         type="text"
                         name="search"
                         value="{{ request('search') }}"
-                        placeholder="{{ ($mode ?? '') === 'produk' ? 'Cari nama produk inovasi, spesifikasi, atau pengembang...' : (($mode ?? '') === 'lab' ? 'Cari nama layanan uji lab, kalibrasi, standar ISO...' : 'Cari nama inovasi, produk riset, laboratorium, atau nama pengembang...') }}"
+                        placeholder="{{ ($mode ?? '') === 'produk' ? 'Cari produk inovasi, alat peraga, modul trainer, lisensi paten...' : (($mode ?? '') === 'lab' ? 'Cari layanan pengujian lab, kalibrasi instrumen, standar ISO/ASTM...' : 'Cari nama inovasi, produk riset, laboratorium, atau nama pengembang...') }}"
                         class="w-full pl-11 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-teal-primary transition card-shadow"
                     >
                     @if(request('search'))

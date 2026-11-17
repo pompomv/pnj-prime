@@ -89,30 +89,8 @@
                     </a>
                 </div>
 
-                {{-- Center-Left: Search Bar with Category Dropdown --}}
-                <div class="hidden lg:flex items-center flex-1 max-w-md mx-4">
-                    <form action="{{ route('marketplace.index') }}" method="GET" class="w-full flex items-center bg-[#F9FAFB] border border-gray-300 rounded-full py-1.5 pl-4 pr-1.5 text-xs focus-within:border-teal-primary focus-within:ring-2 focus-within:ring-teal-100 transition">
-                        <select name="tipe" class="bg-transparent text-gray-700 font-medium pr-2 focus:outline-none cursor-pointer border-r border-gray-200">
-                            <option value="">Semua Kategori</option>
-                            <option value="produk_fisik">Produk Fisik</option>
-                            <option value="jasa">Layanan Jasa</option>
-                        </select>
-                        <input
-                            type="text"
-                            name="search"
-                            placeholder="Cari produk riset, jasa lab, paten..."
-                            class="w-full px-3 py-1 bg-transparent text-gray-800 placeholder-gray-400 focus:outline-none text-xs"
-                        >
-                        <button type="submit" class="w-8 h-8 rounded-full bg-teal-primary hover:bg-teal-800 text-white flex items-center justify-center shrink-0 transition" title="Cari">
-                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                        </button>
-                    </form>
-                </div>
-
                 {{-- Center-Right: Navigation Links --}}
-                <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-gray-600">
+                <nav class="hidden md:flex items-center gap-7 text-xs font-semibold text-gray-600">
                     <a href="{{ route('home') }}" class="text-teal-primary font-bold hover:text-teal-800 transition">
                         Beranda
                     </a>
@@ -125,7 +103,7 @@
                     <a href="#alur-kemitraan" class="hover:text-teal-primary transition">
                         Alur Kemitraan
                     </a>
-                    <a href="#kontak" class="hover:text-teal-primary transition">
+                    <a href="#tentang-kami" class="hover:text-teal-primary transition">
                         Tentang Kami
                     </a>
                 </nav>
@@ -632,9 +610,9 @@
 
 
     {{-- ═══════════════════════════════════════════════════════════════════════
-         7. FOOTER
+         7. FOOTER & TENTANG KAMI
     ══════════════════════════════════════════════════════════════════════════ --}}
-    <footer id="kontak" class="bg-white border-t border-gray-200 mt-auto pt-14 pb-8">
+    <footer id="tentang-kami" class="bg-white border-t border-gray-200 mt-auto pt-14 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
 

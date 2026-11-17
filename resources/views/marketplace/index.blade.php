@@ -162,65 +162,7 @@
 
 
     {{-- ═══════════════════════════════════════════════════════════════════════
-         2. DUAL ETALASE SWITCHER (TAB PEMISAH UTAMA)
-    ══════════════════════════════════════════════════════════════════════════ --}}
-    <div class="bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between overflow-x-auto py-2 gap-4">
-
-                <div class="flex items-center gap-3 shrink-0">
-                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider hidden sm:inline">Pilih Etalase:</span>
-
-                    {{-- Tab 1: Produk Inovasi Terapan --}}
-                    <a
-                        href="{{ route('katalog.produk') }}"
-                        class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm {{ ($mode ?? '') === 'produk' ? 'bg-teal-primary text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}"
-                    >
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                        </svg>
-                        <span>Produk Inovasi Terapan</span>
-                        <span class="px-1.5 py-0.5 rounded-full text-[10px] {{ ($mode ?? '') === 'produk' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-700' }}">
-                            {{ max($totalProduk, 42) }}
-                        </span>
-                    </a>
-
-                    {{-- Tab 2: Layanan Pengujian Lab & Kalibrasi --}}
-                    <a
-                        href="{{ route('katalog.lab') }}"
-                        class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm {{ ($mode ?? '') === 'lab' ? 'bg-teal-primary text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}"
-                    >
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
-                        </svg>
-                        <span>Layanan Pengujian Lab &amp; Kalibrasi</span>
-                        <span class="px-1.5 py-0.5 rounded-full text-[10px] {{ ($mode ?? '') === 'lab' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-700' }}">
-                            {{ max($totalLab, 35) }}
-                        </span>
-                    </a>
-
-                    {{-- Tab 3: Semua Etalase Gabungan --}}
-                    <a
-                        href="{{ route('marketplace.index') }}"
-                        class="px-3 py-2 rounded-xl text-xs font-semibold text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition {{ ($mode ?? '') === 'semua' ? 'font-bold text-teal-primary' : '' }}"
-                    >
-                        Semua ({{ max($totalSemua, 128) }})
-                    </a>
-                </div>
-
-                {{-- Status Tag --}}
-                <div class="hidden lg:flex items-center gap-2 text-[11px] text-gray-400">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                    <span>Etalase Terverifikasi BLU PNJ</span>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-    {{-- ═══════════════════════════════════════════════════════════════════════
-         3. HERO / PAGE TITLE & ACCREDITATION BADGE (DINAMIS SESUAI MODE)
+         2. HERO / PAGE TITLE & ACCREDITATION BADGE
     ══════════════════════════════════════════════════════════════════════════ --}}
     <section class="pt-8 pb-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

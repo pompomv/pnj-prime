@@ -10,8 +10,12 @@ use App\Http\Controllers\RtpuController;
 use App\Http\Controllers\MarketplaceController;
 use Illuminate\Support\Facades\Route;
 
-// ─── Halaman Utama & Katalog Publik ──────────────────────────────────────────
+// ─── Halaman Utama & Katalog Terpisah (Publik) ───────────────────────────────
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Etalase Terpisah: Produk Inovasi vs Layanan Lab
+Route::get('/katalog-inovasi', [MarketplaceController::class, 'produk'])->name('katalog.produk');
+Route::get('/layanan-lab',     [MarketplaceController::class, 'layananLab'])->name('katalog.lab');
 
 Route::prefix('marketplace')->name('marketplace.')->group(function () {
     Route::get('/',     [MarketplaceController::class, 'index'])->name('index');

@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Katalog Inovasi & Layanan Pengujian – PNJ PRIME</title>
+    <title>
+        @if(($mode ?? '') === 'produk')
+            Katalog Produk Inovasi Terapan – PNJ PRIME
+        @elseif(($mode ?? '') === 'lab')
+            Layanan Pengujian Lab & Kalibrasi ISO 17025 – PNJ PRIME
+        @else
+            Katalog Inovasi & Layanan Pengujian – PNJ PRIME
+        @endif
+    </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,22 +96,16 @@
                     </a>
                 </div>
 
-                {{-- Center-Left: Search Bar with Category Dropdown --}}
+                {{-- Center-Left: Quick Search Bar --}}
                 <div class="hidden lg:flex items-center flex-1 max-w-md mx-4">
-                    <form action="{{ route('marketplace.index') }}" method="GET" class="w-full flex items-center bg-[#F9FAFB] border border-gray-300 rounded-full py-1.5 pl-4 pr-1.5 text-xs focus-within:border-teal-primary focus-within:ring-2 focus-within:ring-teal-100 transition">
-                        <select name="kategori" class="bg-transparent text-gray-700 font-medium pr-2 focus:outline-none cursor-pointer border-r border-gray-200">
-                            <option value="semua" {{ ($kategori ?? '') === 'semua' ? 'selected' : '' }}>Semua Kategori</option>
-                            <option value="rekayasa" {{ ($kategori ?? '') === 'rekayasa' ? 'selected' : '' }}>Produk Rekayasa</option>
-                            <option value="pengujian" {{ ($kategori ?? '') === 'pengujian' ? 'selected' : '' }}>Jasa Pengujian</option>
-                            <option value="kalibrasi" {{ ($kategori ?? '') === 'kalibrasi' ? 'selected' : '' }}>Kalibrasi Presisi</option>
-                            <option value="pelatihan" {{ ($kategori ?? '') === 'pelatihan' ? 'selected' : '' }}>Pelatihan Vokasi</option>
-                        </select>
+                    <form action="{{ request()->url() }}" method="GET" class="w-full flex items-center bg-[#F9FAFB] border border-gray-300 rounded-full py-1.5 pl-4 pr-1.5 text-xs focus-within:border-teal-primary focus-within:ring-2 focus-within:ring-teal-100 transition">
+                        <input type="hidden" name="mode" value="{{ $mode ?? 'semua' }}">
                         <input
                             type="text"
                             name="search"
                             value="{{ request('search') }}"
-                            placeholder="Cari inovasi, jasa lab, paten..."
-                            class="w-full px-3 py-1 bg-transparent text-gray-800 placeholder-gray-400 focus:outline-none text-xs"
+                            placeholder="{{ ($mode ?? '') === 'produk' ? 'Cari produk inovasi, modul, mesin...' : (($mode ?? '') === 'lab' ? 'Cari layanan uji, kalibrasi, lab...' : 'Cari produk inovasi atau layanan lab...') }}"
+                            class="w-full px-2 py-1 bg-transparent text-gray-800 placeholder-gray-400 focus:outline-none text-xs"
                         >
                         <button type="submit" class="w-8 h-8 rounded-full bg-teal-primary hover:bg-teal-800 text-white flex items-center justify-center shrink-0 transition" title="Cari">
                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -113,19 +115,19 @@
                     </form>
                 </div>
 
-                {{-- Center-Right: Navigation Links --}}
+                {{-- Center-Right: Navigation Links (Terpisah Jelas) --}}
                 <nav class="hidden md:flex items-center gap-6 text-xs font-semibold text-gray-600">
                     <a href="{{ route('home') }}" class="hover:text-teal-primary transition">
                         Beranda
                     </a>
-                    <a href="{{ route('marketplace.index') }}" class="text-teal-primary font-bold transition">
-                        Katalog Inovasi
+                    <a href="{{ route('katalog.produk') }}" class="{{ ($mode ?? '') === 'produk' ? 'text-teal-primary font-bold border-b-2 border-teal-primary pb-1' : 'hover:text-teal-primary' }} transition">
+                        Katalog Produk Inovasi
                     </a>
-                    <a href="{{ route('marketplace.index', ['kategori' => 'pengujian']) }}" class="hover:text-teal-primary transition">
-                        Layanan Riset
+                    <a href="{{ route('katalog.lab') }}" class="{{ ($mode ?? '') === 'lab' ? 'text-teal-primary font-bold border-b-2 border-teal-primary pb-1' : 'hover:text-teal-primary' }} transition">
+                        Layanan Pengujian Lab
                     </a>
-                    <a href="{{ route('home') }}#kontak" class="hover:text-teal-primary transition">
-                        Tentang Kami
+                    <a href="{{ route('home') }}#alur-kemitraan" class="hover:text-teal-primary transition">
+                        Alur Kemitraan
                     </a>
                 </nav>
 
@@ -160,38 +162,131 @@
 
 
     {{-- ═══════════════════════════════════════════════════════════════════════
-         2. HERO / PAGE TITLE & ACCREDITATION BADGE
+         2. DUAL ETALASE SWITCHER (TAB PEMISAH UTAMA)
+    ══════════════════════════════════════════════════════════════════════════ --}}
+    <div class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between overflow-x-auto py-2 gap-4">
+
+                <div class="flex items-center gap-3 shrink-0">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-wider hidden sm:inline">Pilih Etalase:</span>
+
+                    {{-- Tab 1: Produk Inovasi Terapan --}}
+                    <a
+                        href="{{ route('katalog.produk') }}"
+                        class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm {{ ($mode ?? '') === 'produk' ? 'bg-teal-primary text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}"
+                    >
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+                        </svg>
+                        <span>Produk Inovasi Terapan</span>
+                        <span class="px-1.5 py-0.5 rounded-full text-[10px] {{ ($mode ?? '') === 'produk' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-700' }}">
+                            {{ max($totalProduk, 42) }}
+                        </span>
+                    </a>
+
+                    {{-- Tab 2: Layanan Pengujian Lab & Kalibrasi --}}
+                    <a
+                        href="{{ route('katalog.lab') }}"
+                        class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm {{ ($mode ?? '') === 'lab' ? 'bg-teal-primary text-white shadow-md' : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }}"
+                    >
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                        </svg>
+                        <span>Layanan Pengujian Lab &amp; Kalibrasi</span>
+                        <span class="px-1.5 py-0.5 rounded-full text-[10px] {{ ($mode ?? '') === 'lab' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-700' }}">
+                            {{ max($totalLab, 35) }}
+                        </span>
+                    </a>
+
+                    {{-- Tab 3: Semua Etalase Gabungan --}}
+                    <a
+                        href="{{ route('marketplace.index') }}"
+                        class="px-3 py-2 rounded-xl text-xs font-semibold text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition {{ ($mode ?? '') === 'semua' ? 'font-bold text-teal-primary' : '' }}"
+                    >
+                        Semua ({{ max($totalSemua, 128) }})
+                    </a>
+                </div>
+
+                {{-- Status Tag --}}
+                <div class="hidden lg:flex items-center gap-2 text-[11px] text-gray-400">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    <span>Etalase Terverifikasi BLU PNJ</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    {{-- ═══════════════════════════════════════════════════════════════════════
+         3. HERO / PAGE TITLE & ACCREDITATION BADGE (DINAMIS SESUAI MODE)
     ══════════════════════════════════════════════════════════════════════════ --}}
     <section class="pt-8 pb-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-gray-200/70">
 
-                {{-- Title & Subtitle --}}
+                {{-- Title & Subtitle Dinamis --}}
                 <div class="max-w-2xl space-y-2">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide" style="background-color: #E6F4F1; color: #0D6B5E;">
-                        <span class="w-1.5 h-1.5 rounded-full bg-teal-primary"></span>
-                        ETALASE TEKNOLOGI &amp; LAYANAN PENGUJIAN KAMPUS
-                    </div>
-                    <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-                        Katalog Inovasi &amp; Layanan Pengujian PNJ
-                    </h1>
-                    <p class="text-xs sm:text-sm text-gray-500 leading-relaxed font-normal">
-                        Daftar resmi seluruh produk hilirisasi riset terapan, jasa laboratorium, dan kalibrasi terstandar ISO/IEC 17025 langsung dari Politeknik Negeri Jakarta.
-                    </p>
+                    @if(($mode ?? '') === 'produk')
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide" style="background-color: #E6F4F1; color: #0D6B5E;">
+                            <span class="w-1.5 h-1.5 rounded-full bg-teal-primary"></span>
+                            ETALASE PRODUK INOVASI &amp; REKAYASA TERAPAN
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                            Katalog Produk Inovasi Vokasi PNJ
+                        </h1>
+                        <p class="text-xs sm:text-sm text-gray-500 leading-relaxed font-normal">
+                            Daftar resmi produk hilirisasi rekayasa manufaktur, modul kontrol otomatisasi industri, sistem IoT, dan alat peraga vokasi siap diadopsi atau diproduksi massal oleh industri mitra.
+                        </p>
+                    @elseif(($mode ?? '') === 'lab')
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide" style="background-color: #FEF3C7; color: #92400E;">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                            FASILITAS PENGUJIAN LABORATORIUM TERAKREDITASI
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                            Layanan Pengujian Lab &amp; Kalibrasi PNJ
+                        </h1>
+                        <p class="text-xs sm:text-sm text-gray-500 leading-relaxed font-normal">
+                            Layanan uji kekuatan material, kalibrasi instrumen presisi, uji akustik ruang, dan sertifikasi kelaikan teknis berstandar KAN &amp; ISO/IEC 17025 oleh periset dan teknisi ahli.
+                        </p>
+                    @else
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold tracking-wide" style="background-color: #E6F4F1; color: #0D6B5E;">
+                            <span class="w-1.5 h-1.5 rounded-full bg-teal-primary"></span>
+                            ETALASE TERPADU INOVASI &amp; PENGUJIAN VOKASI
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                            Katalog Inovasi &amp; Layanan Pengujian PNJ
+                        </h1>
+                        <p class="text-xs sm:text-sm text-gray-500 leading-relaxed font-normal">
+                            Daftar resmi seluruh produk hilirisasi riset terapan dan jasa laboratorium terstandar langsung dari Politeknik Negeri Jakarta.
+                        </p>
+                    @endif
                 </div>
 
-                {{-- Right ISO / Accreditation Card --}}
+                {{-- Right Badge Card --}}
                 <div class="shrink-0 bg-white rounded-2xl p-4 card-shadow border border-gray-200/80 flex items-center gap-3.5 self-start md:self-auto">
-                    <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background-color: #E6F4F1;">
-                        {{-- Shield Check Icon --}}
-                        <svg class="w-6 h-6 text-teal-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="text-sm font-extrabold text-gray-900 tracking-wide">ISO/IEC 17025</div>
-                        <div class="text-[11px] text-gray-500">Akreditasi Laboratorium Pengujian &amp; Kalibrasi</div>
-                    </div>
+                    @if(($mode ?? '') === 'lab')
+                        <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background-color: #E6F4F1;">
+                            <svg class="w-6 h-6 text-teal-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-sm font-extrabold text-gray-900 tracking-wide">ISO/IEC 17025</div>
+                            <div class="text-[11px] text-gray-500">Akreditasi Lab Pengujian &amp; Kalibrasi</div>
+                        </div>
+                    @else
+                        <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background-color: #E6F4F1;">
+                            <svg class="w-6 h-6 text-teal-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-sm font-extrabold text-gray-900 tracking-wide">Hilirisasi BLU Resmi</div>
+                            <div class="text-[11px] text-gray-500">Sertifikasi &amp; Standar Mutu Kampus</div>
+                        </div>
+                    @endif
                 </div>
 
             </div>
@@ -200,13 +295,14 @@
 
 
     {{-- ═══════════════════════════════════════════════════════════════════════
-         3. SEARCH BAR, FILTER TABS & SORTING CONTROLS
+         4. SEARCH BAR & SUB-KATEGORI FILTER TABS
     ══════════════════════════════════════════════════════════════════════════ --}}
     <section class="pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
 
-            {{-- Big Search Bar with Filter & Sort Actions --}}
-            <form action="{{ route('marketplace.index') }}" method="GET" class="flex flex-col md:flex-row items-stretch md:items-center gap-3">
+            {{-- Big Search Bar --}}
+            <form action="{{ request()->url() }}" method="GET" class="flex flex-col md:flex-row items-stretch md:items-center gap-3">
+                <input type="hidden" name="mode" value="{{ $mode ?? 'semua' }}">
                 <input type="hidden" name="kategori" value="{{ request('kategori', 'semua') }}">
 
                 {{-- Search Input Box --}}
@@ -220,11 +316,11 @@
                         type="text"
                         name="search"
                         value="{{ request('search') }}"
-                        placeholder="Cari nama inovasi, produk riset, laboratorium, atau nama pengembang..."
+                        placeholder="{{ ($mode ?? '') === 'produk' ? 'Cari nama produk inovasi, spesifikasi, atau pengembang...' : (($mode ?? '') === 'lab' ? 'Cari nama layanan uji lab, kalibrasi, standar ISO...' : 'Cari nama inovasi, produk riset, laboratorium, atau nama pengembang...') }}"
                         class="w-full pl-11 pr-4 py-3 bg-white border border-gray-300 rounded-xl text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-100 focus:border-teal-primary transition card-shadow"
                     >
                     @if(request('search'))
-                        <a href="{{ route('marketplace.index', ['kategori' => request('kategori', 'semua')]) }}" class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-gray-400 hover:text-gray-600">
+                        <a href="{{ request()->url() }}" class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-gray-400 hover:text-gray-600">
                             ✕ Reset
                         </a>
                     @endif
@@ -256,47 +352,63 @@
                 </div>
             </form>
 
-            {{-- Category Filter Pills (Horizontal Tabs) --}}
+            {{-- Sub-Filter Pills Khusus Mode Terkait --}}
             <div class="flex items-center gap-2.5 overflow-x-auto pb-1 text-xs font-bold scrollbar-none">
-                {{-- Tab 1: Semua Kategori --}}
-                <a
-                    href="{{ route('marketplace.index', array_merge(request()->except('page'), ['kategori' => 'semua'])) }}"
-                    class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? 'semua') === 'semua' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}"
-                >
-                    Semua Kategori ({{ max($totalSemua, 128) }})
-                </a>
 
-                {{-- Tab 2: Produk Riset Rekayasa --}}
-                <a
-                    href="{{ route('marketplace.index', array_merge(request()->except('page'), ['kategori' => 'rekayasa'])) }}"
-                    class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? '') === 'rekayasa' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}"
-                >
-                    Produk Riset Rekayasa ({{ max($totalRekayasa, 42) }})
-                </a>
+                @if(($mode ?? '') === 'produk')
+                    {{-- Sub-kategori khusus PRODUK INOVASI --}}
+                    <a href="{{ route('katalog.produk', array_merge(request()->except('page'), ['kategori' => 'semua'])) }}"
+                       class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? 'semua') === 'semua' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                        Semua Produk Inovasi ({{ max($totalProduk, 42) }})
+                    </a>
+                    <a href="{{ route('katalog.produk', array_merge(request()->except('page'), ['kategori' => 'mesin'])) }}"
+                       class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? '') === 'mesin' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                        Manufaktur &amp; Mesin CNC (18)
+                    </a>
+                    <a href="{{ route('katalog.produk', array_merge(request()->except('page'), ['kategori' => 'otomasi'])) }}"
+                       class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? '') === 'otomasi' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                        Otomasi &amp; Smart IoT (14)
+                    </a>
+                    <a href="{{ route('katalog.produk', array_merge(request()->except('page'), ['kategori' => 'edukasi'])) }}"
+                       class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? '') === 'edukasi' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                        Trainer &amp; Modul Vokasi (10)
+                    </a>
 
-                {{-- Tab 3: Pengujian Laboratorium --}}
-                <a
-                    href="{{ route('marketplace.index', array_merge(request()->except('page'), ['kategori' => 'pengujian'])) }}"
-                    class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? '') === 'pengujian' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}"
-                >
-                    Pengujian Laboratorium ({{ max($totalPengujian, 35) }})
-                </a>
+                @elseif(($mode ?? '') === 'lab')
+                    {{-- Sub-kategori khusus LAYANAN LAB --}}
+                    <a href="{{ route('katalog.lab', array_merge(request()->except('page'), ['kategori' => 'semua'])) }}"
+                       class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? 'semua') === 'semua' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                        Semua Layanan Lab ({{ max($totalLab, 35) }})
+                    </a>
+                    <a href="{{ route('katalog.lab', array_merge(request()->except('page'), ['kategori' => 'material'])) }}"
+                       class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? '') === 'material' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                        Uji Bahan &amp; Metalurgi (14)
+                    </a>
+                    <a href="{{ route('katalog.lab', array_merge(request()->except('page'), ['kategori' => 'kalibrasi'])) }}"
+                       class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? '') === 'kalibrasi' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                        Kalibrasi Presisi Dimensi &amp; Torsi (12)
+                    </a>
+                    <a href="{{ route('katalog.lab', array_merge(request()->except('page'), ['kategori' => 'akustik'])) }}"
+                       class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? '') === 'akustik' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                        Akustik &amp; Insulasi ISO (9)
+                    </a>
 
-                {{-- Tab 4: Kalibrasi Presisi --}}
-                <a
-                    href="{{ route('marketplace.index', array_merge(request()->except('page'), ['kategori' => 'kalibrasi'])) }}"
-                    class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? '') === 'kalibrasi' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}"
-                >
-                    Kalibrasi Presisi ({{ max($totalKalibrasi, 24) }})
-                </a>
+                @else
+                    {{-- Tab Gabungan Default --}}
+                    <a href="{{ route('marketplace.index', array_merge(request()->except('page'), ['kategori' => 'semua'])) }}"
+                       class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? 'semua') === 'semua' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                        Semua Kategori ({{ max($totalSemua, 128) }})
+                    </a>
+                    <a href="{{ route('katalog.produk') }}"
+                       class="px-4 py-2 rounded-xl transition whitespace-nowrap bg-white border border-gray-200 text-gray-600 hover:bg-gray-50">
+                        Produk Riset Rekayasa ({{ max($totalProduk, 42) }})
+                    </a>
+                    <a href="{{ route('katalog.lab') }}"
+                       class="px-4 py-2 rounded-xl transition whitespace-nowrap bg-white border border-gray-200 text-gray-600 hover:bg-gray-50">
+                        Pengujian Laboratorium ({{ max($totalLab, 35) }})
+                    </a>
+                @endif
 
-                {{-- Tab 5: Pelatihan Vokasi --}}
-                <a
-                    href="{{ route('marketplace.index', array_merge(request()->except('page'), ['kategori' => 'pelatihan'])) }}"
-                    class="px-4 py-2 rounded-xl transition whitespace-nowrap {{ ($kategori ?? '') === 'pelatihan' ? 'bg-teal-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50' }}"
-                >
-                    Pelatihan Vokasi ({{ max($totalPelatihan, 27) }})
-                </a>
             </div>
 
         </div>
@@ -304,7 +416,7 @@
 
 
     {{-- ═══════════════════════════════════════════════════════════════════════
-         4. PRODUCT & SERVICE GRID (6 CARDS AS PER FIGMA)
+         5. PRODUCT & SERVICE GRID (DIBEDAKAN SESUAI MODE)
     ══════════════════════════════════════════════════════════════════════════ --}}
     <main class="flex-1 pb-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -312,7 +424,7 @@
             {{-- 3 Columns Grid --}}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                {{-- If items exist from database, iterate --}}
+                {{-- Data dari Database --}}
                 @forelse($items as $item)
                     <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
                         <div>
@@ -325,7 +437,6 @@
                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     >
                                 @else
-                                    {{-- Realistic Engineering Placeholder Image based on item type --}}
                                     <img
                                         src="{{ $item->tipe_item === 'produk_fisik' ? 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80' : 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80' }}"
                                         alt="{{ $item->judul }}"
@@ -376,197 +487,212 @@
                         </div>
                     </div>
                 @empty
-                    {{-- Empty State or Fallback Cards matching the exact 6 Figma Cards --}}
+                    {{-- Empty state jika filter tidak menemukan data --}}
                 @endforelse
 
-                {{-- Fallback Card 1: Sistem IoT Monitoring Getaran Mesin CNC Industri --}}
-                <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
-                    <div>
-                        <div class="relative h-48 w-full overflow-hidden bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80" alt="Sistem IoT Monitoring Getaran Mesin CNC" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-teal-800">
-                                PRODUK FISIK REKAYASA
-                            </span>
-                        </div>
-                        <div class="p-5">
-                            <div class="text-[11px] font-semibold text-gray-400 mb-1">Jur. Teknik Mesin</div>
-                            <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
-                                Sistem IoT Monitoring Getaran Mesin CNC Industri
-                            </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Sensor multi-axis terintegrasi dengan alert suhu dan deteksi dini keausan bearing pada mesin spindle CNC manufaktur.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                {{-- FALLBACK CARDS KHUSUS MODE "PRODUK INOVASI" (atau saat mode "semua") --}}
+                @if(($mode ?? '') !== 'lab')
+                    {{-- Produk 1: Sistem IoT CNC --}}
+                    <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
                         <div>
-                            <div class="text-[10px] text-gray-400 font-semibold uppercase">Harga Patokan BLU</div>
-                            <div class="text-sm font-extrabold text-teal-primary">Rp 8.500.000</div>
+                            <div class="relative h-48 w-full overflow-hidden bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80" alt="Sistem IoT Monitoring Getaran Mesin CNC" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-teal-800">
+                                    PRODUK FISIK REKAYASA
+                                </span>
+                            </div>
+                            <div class="p-5">
+                                <div class="text-[11px] font-semibold text-gray-400 mb-1">Jur. Teknik Mesin</div>
+                                <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
+                                    Sistem IoT Monitoring Getaran Mesin CNC Industri
+                                </h3>
+                                <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
+                                    Sensor multi-axis terintegrasi dengan alert suhu dan deteksi dini keausan bearing pada mesin spindle CNC manufaktur.
+                                </p>
+                            </div>
                         </div>
-                        <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
-                            + Tambah
-                        </a>
+                        <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-semibold uppercase">Harga Patokan BLU</div>
+                                <div class="text-sm font-extrabold text-teal-primary">Rp 8.500.000</div>
+                            </div>
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
+                                + Tambah
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                {{-- Fallback Card 2: Solar Tracker Controller Dual-Axis Otomatis --}}
-                <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
-                    <div>
-                        <div class="relative h-48 w-full overflow-hidden bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80" alt="Solar Tracker Controller" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-teal-800">
-                                PRODUK FISIK REKAYASA
-                            </span>
-                        </div>
-                        <div class="p-5">
-                            <div class="text-[11px] font-semibold text-gray-400 mb-1">Jur. Teknik Elektro</div>
-                            <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
-                                Solar Tracker Controller Dual-Axis Otomatis
-                            </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Modul efisiensi panel surya dengan tracking dual-axis otomatis untuk optimalisasi harvest energi fotovoltaik mandiri.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                    {{-- Produk 2: Solar Tracker Controller --}}
+                    <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
                         <div>
-                            <div class="text-[10px] text-gray-400 font-semibold uppercase">Harga Patokan BLU</div>
-                            <div class="text-sm font-extrabold text-teal-primary">Rp 3.250.000</div>
+                            <div class="relative h-48 w-full overflow-hidden bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80" alt="Solar Tracker Controller" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-teal-800">
+                                    PRODUK FISIK REKAYASA
+                                </span>
+                            </div>
+                            <div class="p-5">
+                                <div class="text-[11px] font-semibold text-gray-400 mb-1">Jur. Teknik Elektro</div>
+                                <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
+                                    Solar Tracker Controller Dual-Axis Otomatis
+                                </h3>
+                                <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
+                                    Modul efisiensi panel surya dengan tracking dual-axis otomatis untuk optimalisasi harvest energi fotovoltaik mandiri.
+                                </p>
+                            </div>
                         </div>
-                        <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
-                            + Tambah
-                        </a>
+                        <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-semibold uppercase">Harga Patokan BLU</div>
+                                <div class="text-sm font-extrabold text-teal-primary">Rp 3.250.000</div>
+                            </div>
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
+                                + Tambah
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                {{-- Fallback Card 3: Kit PLC Modular Trainer Pendidikan Vokasi --}}
-                <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
-                    <div>
-                        <div class="relative h-48 w-full overflow-hidden bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80" alt="Kit PLC Modular Trainer" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-teal-800">
-                                PRODUK FISIK REKAYASA
-                            </span>
-                        </div>
-                        <div class="p-5">
-                            <div class="text-[11px] font-semibold text-gray-400 mb-1">Jur. Teknik Elektro</div>
-                            <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
-                                Kit PLC Modular Trainer Pendidikan Vokasi
-                            </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Perangkat modul trainer praktikum programmable logic controller modular untuk kebutuhan lab otomasi SMK dan Politeknik.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                    {{-- Produk 3: Kit PLC Trainer --}}
+                    <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
                         <div>
-                            <div class="text-[10px] text-gray-400 font-semibold uppercase">Harga Patokan BLU</div>
-                            <div class="text-sm font-extrabold text-teal-primary">Rp 12.000.000</div>
+                            <div class="relative h-48 w-full overflow-hidden bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80" alt="Kit PLC Modular Trainer" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-teal-800">
+                                    PRODUK FISIK REKAYASA
+                                </span>
+                            </div>
+                            <div class="p-5">
+                                <div class="text-[11px] font-semibold text-gray-400 mb-1">Jur. Teknik Elektro</div>
+                                <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
+                                    Kit PLC Modular Trainer Pendidikan Vokasi
+                                </h3>
+                                <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
+                                    Perangkat modul trainer praktikum programmable logic controller modular untuk kebutuhan lab otomasi SMK dan Politeknik.
+                                </p>
+                            </div>
                         </div>
-                        <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
-                            + Tambah
-                        </a>
+                        <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-semibold uppercase">Harga Patokan BLU</div>
+                                <div class="text-sm font-extrabold text-teal-primary">Rp 12.000.000</div>
+                            </div>
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
+                                + Tambah
+                            </a>
+                        </div>
                     </div>
-                </div>
+                @endif
 
-                {{-- Fallback Card 4: Pengujian Tingkat Kebisingan & Insulasi Ruang ISO --}}
-                <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
-                    <div>
-                        <div class="relative h-48 w-full overflow-hidden bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" alt="Pengujian Kebisingan & Insulasi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-amber-800">
-                                JASA PENGUJIAN
-                            </span>
-                        </div>
-                        <div class="p-5">
-                            <div class="text-[11px] font-semibold text-gray-400 mb-1">Lab. Akustik &amp; Getaran</div>
-                            <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
-                                Pengujian Tingkat Kebisingan &amp; Insulasi Ruang ISO
-                            </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Layanan pengukuran Sound Transmission Class (STC) dan noise level ruang komersial &amp; industri sesuai regulasi K3.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                {{-- FALLBACK CARDS KHUSUS MODE "LAYANAN LAB" (atau saat mode "semua") --}}
+                @if(($mode ?? '') !== 'produk')
+                    {{-- Lab 1: Uji Kebisingan & Insulasi --}}
+                    <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
                         <div>
-                            <div class="text-[10px] text-gray-400 font-semibold uppercase">Tarif Layanan BLU</div>
-                            <div class="text-sm font-extrabold text-teal-primary">Rp 1.500.000 <span class="text-[10px] font-normal text-gray-400">/ titik</span></div>
+                            <div class="relative h-48 w-full overflow-hidden bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" alt="Pengujian Kebisingan & Insulasi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-amber-800">
+                                    JASA PENGUJIAN
+                                </span>
+                            </div>
+                            <div class="p-5">
+                                <div class="text-[11px] font-semibold text-gray-400 mb-1">Lab. Akustik &amp; Getaran</div>
+                                <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
+                                    Pengujian Tingkat Kebisingan &amp; Insulasi Ruang ISO
+                                </h3>
+                                <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
+                                    Layanan pengukuran Sound Transmission Class (STC) dan noise level ruang komersial &amp; industri sesuai regulasi K3.
+                                </p>
+                            </div>
                         </div>
-                        <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
-                            📅 Booking
-                        </a>
+                        <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-semibold uppercase">Tarif Layanan BLU</div>
+                                <div class="text-sm font-extrabold text-teal-primary">Rp 1.500.000 <span class="text-[10px] font-normal text-gray-400">/ titik</span></div>
+                            </div>
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
+                                📅 Booking
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                {{-- Fallback Card 5: Uji Kalibrasi Presisi Dimensi & Torsi Peralatan Pabrik --}}
-                <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
-                    <div>
-                        <div class="relative h-48 w-full overflow-hidden bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80" alt="Uji Kalibrasi Presisi Dimensi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-amber-800">
-                                JASA PENGUJIAN
-                            </span>
-                        </div>
-                        <div class="p-5">
-                            <div class="text-[11px] font-semibold text-gray-400 mb-1">Lab. Metrologi Industri</div>
-                            <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
-                                Uji Kalibrasi Presisi Dimensi &amp; Torsi Peralatan Pabrik
-                            </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Kalibrasi mikrometer, caliper digital, torquemeter, dan alat ukur presisi dengan sertifikat telusur KAN &amp; standar ISO.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                    {{-- Lab 2: Uji Kalibrasi Presisi Dimensi --}}
+                    <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
                         <div>
-                            <div class="text-[10px] text-gray-400 font-semibold uppercase">Tarif Layanan BLU</div>
-                            <div class="text-sm font-extrabold text-teal-primary">Rp 2.000.000 <span class="text-[10px] font-normal text-gray-400">/ unit</span></div>
+                            <div class="relative h-48 w-full overflow-hidden bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80" alt="Uji Kalibrasi Presisi Dimensi" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-amber-800">
+                                    JASA PENGUJIAN
+                                </span>
+                            </div>
+                            <div class="p-5">
+                                <div class="text-[11px] font-semibold text-gray-400 mb-1">Lab. Metrologi Industri</div>
+                                <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
+                                    Uji Kalibrasi Presisi Dimensi &amp; Torsi Peralatan Pabrik
+                                </h3>
+                                <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
+                                    Kalibrasi mikrometer, caliper digital, torquemeter, dan alat ukur presisi dengan sertifikat telusur KAN &amp; standar ISO.
+                                </p>
+                            </div>
                         </div>
-                        <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
-                            📅 Booking
-                        </a>
+                        <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-semibold uppercase">Tarif Layanan BLU</div>
+                                <div class="text-sm font-extrabold text-teal-primary">Rp 2.000.000 <span class="text-[10px] font-normal text-gray-400">/ unit</span></div>
+                            </div>
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
+                                📅 Booking
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                {{-- Fallback Card 6: Uji Tarik & Kuat Tekan Material Baja Struktural --}}
-                <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
-                    <div>
-                        <div class="relative h-48 w-full overflow-hidden bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Uji Tarik & Kuat Tekan Material" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-amber-800">
-                                JASA PENGUJIAN
-                            </span>
-                        </div>
-                        <div class="p-5">
-                            <div class="text-[11px] font-semibold text-gray-400 mb-1">Lab. Uji Bahan &amp; Metalurgi</div>
-                            <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
-                                Uji Tarik &amp; Kuat Tekan Material Baja Struktural
-                            </h3>
-                            <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
-                                Pemeriksaan kekuatan tarik, elastisitas, dan uji luluh spesimen material ASTM/SNI dengan laporan resmi terakreditasi.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                    {{-- Lab 3: Uji Tarik & Kuat Tekan Material --}}
+                    <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 card-shadow-hover flex flex-col justify-between group">
                         <div>
-                            <div class="text-[10px] text-gray-400 font-semibold uppercase">Tarif Layanan BLU</div>
-                            <div class="text-sm font-extrabold text-teal-primary">Rp 1.850.000 <span class="text-[10px] font-normal text-gray-400">/ sampel</span></div>
+                            <div class="relative h-48 w-full overflow-hidden bg-gray-100">
+                                <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80" alt="Uji Tarik & Kuat Tekan Material" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold tracking-wider uppercase shadow-sm bg-white/95 text-amber-800">
+                                    JASA PENGUJIAN
+                                </span>
+                            </div>
+                            <div class="p-5">
+                                <div class="text-[11px] font-semibold text-gray-400 mb-1">Lab. Uji Bahan &amp; Metalurgi</div>
+                                <h3 class="text-base font-bold text-gray-900 mb-1.5 line-clamp-1 group-hover:text-teal-700 transition">
+                                    Uji Tarik &amp; Kuat Tekan Material Baja Struktural
+                                </h3>
+                                <p class="text-xs text-gray-500 leading-relaxed line-clamp-2">
+                                    Pemeriksaan kekuatan tarik, elastisitas, dan uji luluh spesimen material ASTM/SNI dengan laporan resmi terakreditasi.
+                                </p>
+                            </div>
                         </div>
-                        <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
-                            📅 Booking
-                        </a>
+                        <div class="px-5 pb-5 pt-3 border-t border-gray-100 flex items-center justify-between">
+                            <div>
+                                <div class="text-[10px] text-gray-400 font-semibold uppercase">Tarif Layanan BLU</div>
+                                <div class="text-sm font-extrabold text-teal-primary">Rp 1.850.000 <span class="text-[10px] font-normal text-gray-400">/ sampel</span></div>
+                            </div>
+                            <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm">
+                                📅 Booking
+                            </a>
+                        </div>
                     </div>
-                </div>
+                @endif
 
             </div>
 
             {{-- ═══════════════════════════════════════════════════════════════
-                 5. PAGINATION ROW
+                 6. PAGINATION ROW
             ══════════════════════════════════════════════════════════════════ --}}
             <div class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-200/80 text-xs text-gray-500">
                 <div>
-                    Menampilkan <span class="font-bold text-gray-800">1 - 6</span> dari <span class="font-bold text-gray-800">{{ max($totalSemua, 128) }}</span> inovasi &amp; layanan
+                    Menampilkan <span class="font-bold text-gray-800">1 - 6</span> dari
+                    <span class="font-bold text-gray-800">
+                        @if(($mode ?? '') === 'produk')
+                            {{ max($totalProduk, 42) }} produk inovasi
+                        @elseif(($mode ?? '') === 'lab')
+                            {{ max($totalLab, 35) }} layanan lab
+                        @else
+                            {{ max($totalSemua, 128) }} inovasi &amp; layanan
+                        @endif
+                    </span>
                 </div>
 
                 {{-- Pagination Buttons --}}
@@ -584,9 +710,6 @@
                         3
                     </button>
                     <span class="px-1 text-gray-400">...</span>
-                    <button class="w-8 h-8 rounded-lg bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold flex items-center justify-center transition">
-                        8
-                    </button>
                     <button class="w-8 h-8 rounded-lg bg-white border border-gray-300 hover:bg-gray-50 text-gray-600 flex items-center justify-center transition">
                         &gt;
                     </button>
@@ -598,13 +721,12 @@
 
 
     {{-- ═══════════════════════════════════════════════════════════════════════
-         6. BOTTOM BANNER: PENGUJIAN KHUSUS ATAU PENGADAAN SKALA INSTITUSI
+         7. BOTTOM BANNER
     ══════════════════════════════════════════════════════════════════════════ --}}
     <section class="py-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-teal-primary rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-xl">
 
-                {{-- Decorative background shapes --}}
                 <div class="absolute -right-12 -top-12 w-64 h-64 rounded-full bg-white/5 pointer-events-none"></div>
                 <div class="absolute right-36 -bottom-16 w-80 h-80 rounded-full bg-white/5 pointer-events-none"></div>
 
@@ -612,13 +734,21 @@
                     <div class="max-w-2xl space-y-3">
                         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-teal-100">
                             <span>✦</span>
-                            KERJASAMA PENGADAAN &amp; PENGUJIAN KHUSUS
+                            @if(($mode ?? '') === 'lab')
+                                PENGUJIAN CUSTOM &amp; KONSORSIUM LABORATORIUM
+                            @else
+                                PENGADAAN &amp; LISENSI INOVASI VOKASI
+                            @endif
                         </div>
                         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
-                            Memerlukan Pengujian Khusus atau Pengadaan Skala Institusi?
+                            @if(($mode ?? '') === 'lab')
+                                Butuh Pengujian Terakreditasi dengan Parameter Khusus?
+                            @else
+                                Tertarik Mengadopsi atau Memproduksi Massal Inovasi Kami?
+                            @endif
                         </h2>
                         <p class="text-xs sm:text-sm text-teal-100 leading-relaxed font-normal">
-                            Konsultasikan langsung kebutuhan riset terapan, custom engineering, atau konsorsium uji lab terpadu bersama tim pakar dan sentra layanan terpadu BLU Politeknik Negeri Jakarta.
+                            Konsultasikan langsung kebutuhan riset terapan, lisensi paten, atau pengujian terpadu bersama tim periset dan sentra layanan terpadu BLU Politeknik Negeri Jakarta.
                         </p>
                     </div>
 
@@ -630,7 +760,7 @@
                             </svg>
                         </a>
                         <a href="#" class="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-xs sm:text-sm font-bold text-white border border-white/30 hover:bg-white/10 transition">
-                            Unduh Katalog Lengkap (PDF)
+                            Unduh Katalog Resmi (PDF)
                         </a>
                     </div>
                 </div>
@@ -641,7 +771,7 @@
 
 
     {{-- ═══════════════════════════════════════════════════════════════════════
-         7. FOOTER
+         8. FOOTER
     ══════════════════════════════════════════════════════════════════════════ --}}
     <footer class="bg-white border-t border-gray-200 mt-auto pt-14 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -671,14 +801,13 @@
                     </div>
                 </div>
 
-                {{-- Column 3: Layanan & Inovasi --}}
+                {{-- Column 3: Etalase Terpisah --}}
                 <div class="space-y-3">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900">Layanan Inovasi</h4>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-gray-900">Pilihan Etalase</h4>
                     <ul class="space-y-2 text-xs text-gray-500">
-                        <li><a href="{{ route('marketplace.index', ['kategori' => 'rekayasa']) }}" class="hover:text-teal-primary transition">Produk Riset Rekayasa</a></li>
-                        <li><a href="{{ route('marketplace.index', ['kategori' => 'pengujian']) }}" class="hover:text-teal-primary transition">Pengujian Laboratorium</a></li>
-                        <li><a href="{{ route('marketplace.index', ['kategori' => 'kalibrasi']) }}" class="hover:text-teal-primary transition">Kalibrasi Presisi</a></li>
-                        <li><a href="{{ route('marketplace.index', ['kategori' => 'pelatihan']) }}" class="hover:text-teal-primary transition">Pelatihan Vokasi</a></li>
+                        <li><a href="{{ route('katalog.produk') }}" class="font-semibold text-teal-primary hover:underline">&rarr; Katalog Produk Inovasi</a></li>
+                        <li><a href="{{ route('katalog.lab') }}" class="font-semibold text-teal-primary hover:underline">&rarr; Layanan Uji Lab &amp; Kalibrasi</a></li>
+                        <li><a href="{{ route('marketplace.index') }}" class="hover:text-teal-primary transition">Semua Etalase Terpadu</a></li>
                     </ul>
                 </div>
 

@@ -116,11 +116,11 @@
                     <a href="{{ route('home') }}" class="text-teal-primary font-bold hover:text-teal-800 transition">
                         Beranda
                     </a>
-                    <a href="{{ route('marketplace.index') }}" class="hover:text-teal-primary transition">
+                    <a href="{{ route('katalog.produk') }}" class="hover:text-teal-primary transition">
                         Katalog Inovasi
                     </a>
-                    <a href="{{ route('marketplace.index', ['tipe' => 'jasa']) }}" class="hover:text-teal-primary transition">
-                        Layanan Riset
+                    <a href="{{ route('katalog.lab') }}" class="hover:text-teal-primary transition">
+                        Layanan Lab
                     </a>
                     <a href="#alur-kemitraan" class="hover:text-teal-primary transition">
                         Alur Kemitraan
@@ -196,13 +196,13 @@
 
                     {{-- Action Buttons --}}
                     <div class="flex flex-wrap items-center gap-3 pt-2">
-                        <a href="{{ route('marketplace.index') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm hover:shadow">
+                        <a href="{{ route('katalog.produk') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-bold text-white bg-teal-primary hover:bg-teal-800 transition shadow-sm hover:shadow">
                             Jelajahi Katalog Produk
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                             </svg>
                         </a>
-                        <a href="{{ route('marketplace.index', ['tipe' => 'jasa']) }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-bold text-gray-800 bg-white border border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition shadow-sm">
+                        <a href="{{ route('katalog.lab') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-bold text-gray-800 bg-white border border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition shadow-sm">
                             Konsultasi Layanan Jasa
                         </a>
                     </div>
@@ -308,7 +308,7 @@
                         </p>
                     </div>
                     <div>
-                        <a href="{{ route('marketplace.index', ['tipe' => 'produk_fisik']) }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-primary hover:text-teal-900 group">
+                        <a href="{{ route('katalog.produk') }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-primary hover:text-teal-900 group">
                             Lihat Katalog Produk
                             <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -333,7 +333,7 @@
                         </p>
                     </div>
                     <div>
-                        <a href="{{ route('marketplace.index', ['tipe' => 'jasa']) }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-primary hover:text-teal-900 group">
+                        <a href="{{ route('katalog.lab') }}" class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-primary hover:text-teal-900 group">
                             Cari Layanan Jasa
                             <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>

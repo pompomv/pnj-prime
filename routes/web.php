@@ -2,12 +2,16 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InovasiController;
 use App\Http\Controllers\KurasiController;
 use App\Http\Controllers\HargaController;
 use App\Http\Controllers\RtpuController;
 use App\Http\Controllers\MarketplaceController;
 use Illuminate\Support\Facades\Route;
+
+// ─── Halaman Utama (Publik) ──────────────────────────────────────────────────
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 Route::get('/login',  [AuthController::class, 'showLogin'])->name('login')->middleware('guest');
@@ -26,7 +30,6 @@ Route::post('/register/perusahaan',       [AuthController::class, 'registerPerus
 // ─── Authenticated ────────────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
 
-    Route::get('/', fn() => redirect()->route('dashboard'));
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // ── PENGAJUAN INOVASI (Dosen & Mahasiswa) ─────────────────────────────────

@@ -203,7 +203,7 @@
 
                 </div>
 
-                {{-- Right Column: Dual Quick-Access Showcase Card --}}
+                {{-- Right Column: Sentra Riset & Fasilitas Terpadu Card --}}
                 <div class="lg:col-span-5 relative">
                     <div class="relative mx-auto max-w-md lg:max-w-none">
                         {{-- Background decorative blur --}}
@@ -212,56 +212,48 @@
                         {{-- Card container --}}
                         <div class="bg-white rounded-2xl overflow-hidden card-shadow border border-gray-200/80 group">
                             {{-- Image Container --}}
-                            <div class="relative h-56 sm:h-64 w-full overflow-hidden bg-gray-100">
+                            <div class="relative h-64 sm:h-72 w-full overflow-hidden bg-gray-100">
                                 <img
                                     src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80"
-                                    alt="Pusat Riset Terapan & Laboratorium Terpadu PNJ"
+                                    alt="Sentra Fasilitas Laboratorium Terpadu PNJ"
                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 >
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"></div>
                                 <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-extrabold text-teal-800 tracking-wide uppercase flex items-center gap-1.5 shadow-sm">
-                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                    Portal Layanan Resmi BLU PNJ
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                    Sentra Layanan Vokasi Terpadu
                                 </div>
-                                <div class="absolute bottom-3 left-4 right-4 text-white">
-                                    <div class="text-[10px] font-semibold text-teal-200 uppercase tracking-wider">Ekosistem Riset Vokasi</div>
-                                    <h3 class="text-base sm:text-lg font-bold leading-tight mt-0.5">Solusi Teknologi &amp; Pengujian Industri Terpadu</h3>
+                                <div class="absolute bottom-3.5 left-4 right-4 text-white">
+                                    <div class="text-[10px] font-semibold text-teal-200 uppercase tracking-wider">Politeknik Negeri Jakarta</div>
+                                    <h3 class="text-base sm:text-lg font-bold leading-tight mt-0.5">Ekosistem Riset Terapan &amp; Laboratorium Pengujian</h3>
                                 </div>
                             </div>
 
-                            {{-- Dual Quick-Access Mini Actions --}}
-                            <div class="p-4 bg-white grid grid-cols-2 gap-2.5 border-t border-gray-100">
-                                {{-- Option 1: Produk Inovasi --}}
-                                <a href="{{ route('katalog.produk') }}" class="p-3 rounded-xl border border-gray-200 hover:border-teal-primary hover:bg-teal-50/50 transition group/item flex flex-col justify-between">
-                                    <div class="flex items-center gap-2 mb-1.5">
-                                        <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background-color: #E6F4F1;">
-                                            <svg class="w-4 h-4 text-teal-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                                            </svg>
-                                        </div>
-                                        <span class="text-xs font-bold text-gray-800 group-hover/item:text-teal-primary leading-tight">Produk Inovasi</span>
-                                    </div>
-                                    <p class="text-[10px] text-gray-500 leading-snug line-clamp-2 mb-2">Perangkat manufaktur, IoT, mesin, &amp; modul trainer vokasi.</p>
-                                    <div class="text-[11px] font-bold text-teal-primary flex items-center gap-1">
-                                        Katalog Produk &rarr;
-                                    </div>
-                                </a>
+                            {{-- Info Summary (Bersih & Tanpa Redundansi Tombol) --}}
+                            <div class="p-5 bg-white space-y-3">
+                                <p class="text-xs text-gray-500 leading-relaxed">
+                                    Mendukung hilirisasi riset kampus terpadu dengan standar laboratorium pengujian terakreditasi ISO/IEC 17025 serta tata kelola kemitraan resmi BLU.
+                                </p>
 
-                                {{-- Option 2: Layanan Lab --}}
-                                <a href="{{ route('katalog.lab') }}" class="p-3 rounded-xl border border-gray-200 hover:border-teal-primary hover:bg-teal-50/50 transition group/item flex flex-col justify-between">
-                                    <div class="flex items-center gap-2 mb-1.5">
-                                        <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" style="background-color: #E6F4F1;">
-                                            <svg class="w-4 h-4 text-teal-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                                {{-- Key Highlights Row --}}
+                                <div class="grid grid-cols-2 gap-3 pt-3 border-t border-gray-100 text-xs">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background-color: #E6F4F1;">
+                                            <svg class="w-3.5 h-3.5 text-teal-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                             </svg>
                                         </div>
-                                        <span class="text-xs font-bold text-gray-800 group-hover/item:text-teal-primary leading-tight">Layanan Lab</span>
+                                        <span class="font-semibold text-gray-700 text-[11px]">Akreditasi KAN &amp; ISO</span>
                                     </div>
-                                    <p class="text-[10px] text-gray-500 leading-snug line-clamp-2 mb-2">Uji kekuatan bahan, kalibrasi instrumen, &amp; ISO 17025.</p>
-                                    <div class="text-[11px] font-bold text-teal-primary flex items-center gap-1">
-                                        Booking Lab &rarr;
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0" style="background-color: #E6F4F1;">
+                                            <svg class="w-3.5 h-3.5 text-teal-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                        </div>
+                                        <span class="font-semibold text-gray-700 text-[11px]">Siap Adopsi Industri</span>
                                     </div>
-                                </a>
+                                </div>
                             </div>
                         </div>
 
